@@ -8,16 +8,16 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CommonCodeGroupResponseDto {
+public class CommonCodeGroupDetailDto {
 
     private Long id;
     private String name;
     private Integer value;
     private String description;
 
-    public static CommonCodeGroupResponseDto toDto(CommonCodeGroup commonCodeGroup) {
+    public static CommonCodeGroupDetailDto toDto(CommonCodeGroup commonCodeGroup) {
 
-        return CommonCodeGroupResponseDto.builder()
+        return CommonCodeGroupDetailDto.builder()
                                          .id(commonCodeGroup.getId())
                                          .name(commonCodeGroup.getName())
                                          .value(commonCodeGroup.getValue())
