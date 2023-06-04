@@ -12,9 +12,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
 import static com.company.ejm.common.response.ApiResponseStatus.CREATED;
 import static com.company.ejm.common.response.ApiResponseStatus.OK;
 
@@ -75,6 +72,14 @@ public class CommonCodeGroupController {
     /**
      * [API 3.] : CommonCodeGroup 수정
      * */
+    @PatchMapping("/common-code-groups/{groupId}")
+    public ApiResponse<CommonCodeGroupBaseDto> editCommonCodeGroup(@PathVariable Long groupId, @Validated @RequestBody CommonCodeGroupRequestDto commonCodeGroupRequestDto) {
+
+        return ApiResponse.success(OK, commonCodeGroupService.editCommonCodeGroup(groupId,
+                                                                                    commonCodeGroupRequestDto.getName(),
+                                                                                    commonCodeGroupRequestDto.getValue(),
+                                                                                    commonCodeGroupRequestDto.getDescription()));
+    }
 
     /**
      * [API 4.] : CommonCodeGroup 삭제
