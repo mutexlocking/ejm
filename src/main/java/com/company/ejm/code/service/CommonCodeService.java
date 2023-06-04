@@ -140,4 +140,50 @@ public class CommonCodeService {
     }
 
     /**---------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * [공통코드 수정 서비스]
+     * : 그룹에 대한 코드값은 수정 불가능하도록 스펙을 정함
+     * */
+    @Transactional
+    public CommonCodeBaseDto edit(Long codeId, String name, Integer value, String description) {
+
+        //1. 일단 공통코드 조회
+        CommonCode commonCode = commonCodeRepository.findByIdAndStatus(codeId, Status.ACTIVE).orElseThrow(
+                () -> {
+                    throw new ApiException(ApiResponseStatus.NOT_FOUND_CODE, "공통코드 id로 조회 시점 : 유효한 공통코드를 찾을 수 없음");
+                }
+        );
+
+        //2_1. 그 공통코드에서 코드값을 가지고 -> 그룹에 대한 정보를 추출한 후 -> 그룹에 대한 정보가 바뀌었으면 예외 처리
+        int originalGroupValue = commonCode.getValue() / 1000;
+        int changedGroupValue = value / 1000;
+        if (originalGroupValue != changedGroupValue) {
+            throw new ApiException(ApiResponseStatus.NOT_SAME_GROUP_VALUE, "공통코드 수정 시점 : 수정될 코드값중 그룹에 대한 정보가, 기존 그룹값 정보와 일치하지 않습니다.");
+        }
+
+        //2_2. 수정할 이름이 -> "공통코드그룹"에서 이미 사용중인지 유효성 검사
+        if (commonCodeGroupRepository.existsByName(name)) {
+            throw new ApiException(ApiResponseStatus.SAME_GROUP_AND_CODE_NAME, "공통코드 수정 시점 : 해당 코드명이, 다른 공통코드그룹 이름과 겹칩니다.");
+        }
+
+        //2_3. 수정할 이름 이미 사용중인지 + 수정할 코드값 이미 사용중인지 유효성 검사
+
+        if (commonCodeRepository.existsByName(name)) {
+            throw new ApiException(ApiResponseStatus.ALREADY_EXIST_CODE, "공통코드 수정 시점 : 해당 코드명이 이미 사용중 입니다.");
+        }
+
+        if (commonCodeRepository.existsByValue(value)) {
+            throw new ApiException(ApiResponseStatus.ALREADY_EXIST_CODE, "공통코드 수정 시점 : 해당 코드값이 이미 사용중 입니다.");
+        }
+
+
+        //3. 그후 진짜 수정정
+        commonCode.changeName(name);
+        commonCode.changeValue(value);
+        commonCode.changeDescription(description);
+
+        //4. 응답
+        return CommonCodeBaseDto.toDto(commonCode);
+    }
 }

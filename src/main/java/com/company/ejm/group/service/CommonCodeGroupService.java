@@ -129,18 +129,32 @@ public class CommonCodeGroupService {
      * [공통코드그룹 값을 수정하는 서비스]
      * */
     @Transactional
-    public CommonCodeGroupBaseDto editCommonCodeGroup(Long groupId, String name, Integer value, String description) {
+    public CommonCodeGroupBaseDto edit(Long groupId, String name, Integer value, String description) {
 
+        //1. 공통코드그룹 조회
         CommonCodeGroup commonCodeGroup = commonCodeGroupRepository.findByIdAndStatus(groupId, Status.ACTIVE).orElseThrow(
                 () -> {
                     throw new ApiException(ApiResponseStatus.NOT_FOUND_GROUP, "공통코드그룹 ID로 조회 시점 : 유효한 공통코드그룹을 찾을 수 없음");
                 }
         );
 
+        //2.수정할 이름 이미 사용중인지 + 수정할 코드값 이미 사용중인지 유효성 검사
+        if (commonCodeGroupRepository.existsByName(name)) {
+
+            throw new ApiException(ApiResponseStatus.ALREADY_EXIST_GROUP, "공통코드그룹 수정 시점 : 해당 코드그룹명이 이미 사용중 입니다.");
+        }
+
+        if (commonCodeGroupRepository.existsByValue(value)) {
+
+            throw new ApiException(ApiResponseStatus.ALREADY_EXIST_GROUP, "공통코드그룹 수정 시점 : 해당 코드그룹값이 이미 사용중 입니다.");
+        }
+
+        //3. 값 변경
         commonCodeGroup.changeName(name);
         commonCodeGroup.changeValue(value);
         commonCodeGroup.changeDescription(description);
 
+        //4. 응답
         return CommonCodeGroupBaseDto.toDto(commonCodeGroup);
     }
 
@@ -150,7 +164,7 @@ public class CommonCodeGroupService {
      * [공통코드그룹 값을 논리적으로 삭제하는 서비스]
      * */
     @Transactional
-    public void removeCommonCodeGroup(Long groupId) {
+    public void remove(Long groupId) {
 
         CommonCodeGroup commonCodeGroup = commonCodeGroupRepository.findByIdAndStatus(groupId, Status.ACTIVE).orElseThrow(
                 () -> {

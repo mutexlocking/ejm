@@ -67,4 +67,14 @@ public class CommonCodeController {
 
         return ApiResponse.success(OK, commonCodeService.getCommonCodeList(pageable));
     }
+
+    /**
+     * [API 7.] : CommonCode 수정
+     * */
+    @PatchMapping("/common-codes/{codeId}")
+    public ApiResponse<CommonCodeBaseDto> editCommonCode(@PathVariable Long codeId, @Validated @RequestBody CommonCodeRequestDto commonCodeRequestDto) {
+
+        return ApiResponse.success(OK, commonCodeService.edit(codeId, commonCodeRequestDto.getName(), commonCodeRequestDto.getValue(), commonCodeRequestDto.getDescription()));
+    }
+
 }
