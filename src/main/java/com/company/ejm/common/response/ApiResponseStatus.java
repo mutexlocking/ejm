@@ -44,8 +44,14 @@ public enum ApiResponseStatus {
     INVALID_HTTP_REQUEST_VALUE(false, HttpStatus.BAD_REQUEST, 2002, "잘못된 HTTP 요청값이 들어왔습니다."),
     INVALID_HTTP_METHOD(false, HttpStatus.BAD_REQUEST, 2003, "잘못 매칭된 HTTP 메소드로 요청이 들어왔습니다."),
 
-    ALREADY_EXIST_GROUP(false, HttpStatus.BAD_REQUEST, 2241, "해당 이름 또는 코드그룹값을 가진 공통코드그룹이 이미 존재합니다."),
-    NOT_FOUND_GROUP(false,HttpStatus.BAD_REQUEST, 2242, "해당 공통코드그룹을 찾을 수 없습니다."),
+    NOT_FOUND_GROUP(false, HttpStatus.BAD_REQUEST, 2102, "해당 공통코드그룹을 찾을 수 없습니다."),
+    ALREADY_EXIST_GROUP(false, HttpStatus.BAD_REQUEST, 2141, "해당 이름 또는 코드그룹값을 가진 공통코드그룹이 이미 존재합니다."),
+
+    INVALID_GROUP_VALUE(false, HttpStatus.BAD_REQUEST, 2101, "유효하지 않은 공통코드그룹 코드값 입니다."),
+    NOT_FOUND_CODE(false, HttpStatus.BAD_REQUEST, 2202, "해당 공통코드를 찾을 수 없습니다."),
+    ALREADY_EXIST_CODE(false, HttpStatus.BAD_REQUEST, 2241, "해당 이름 또는 코드값을 가진 공통코드가 이미 존재합니다."),
+    SAME_GROUP_AND_CODE_NAME(false, HttpStatus.BAD_REQUEST, 2242, "해당 이름을 사용하는 공통코드그룹이 이미 존재합니다."),
+
 
 
     INTERNAL_SERVER_ERROR(false, HttpStatus.INTERNAL_SERVER_ERROR, 5000, "예상하지 못한 예외가 발생하였습니다.");

@@ -31,12 +31,12 @@ public class CommonCodeGroupService {
 
         //1. 해당 name과 , codeGroupValue를 가진 CommonCodeGroup Entity가 존재하는지 -> 각각 유효성 검사
         // (동시에 검사하면 안되고 , 각각 따로 따로 검사해야 , name과 value 각각의 unique 성이 보장됨)
-        if (commonCodeGroupRepository.existsByNameAndStatus(name, Status.ACTIVE)) {
+        if (commonCodeGroupRepository.existsByName(name)) {
 
             throw new ApiException(ApiResponseStatus.ALREADY_EXIST_GROUP, "공통코드그룹 생성 시점 : 해당 코드그룹명이 이미 사용중 입니다.");
         }
 
-        if (commonCodeGroupRepository.existsByValueAndStatus(value, Status.ACTIVE)) {
+        if (commonCodeGroupRepository.existsByValue(value)) {
 
             throw new ApiException(ApiResponseStatus.ALREADY_EXIST_GROUP, "공통코드그룹 생성 시점 : 해당 코드그룹값이 이미 사용중 입니다.");
         }

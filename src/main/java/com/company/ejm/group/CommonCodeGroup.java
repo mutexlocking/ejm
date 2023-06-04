@@ -1,6 +1,7 @@
 package com.company.ejm.group;
 
 import com.company.ejm.code.CommonCode;
+import com.company.ejm.common.BaseEntity;
 import com.company.ejm.common.enums.Status;
 import lombok.*;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "common_code_group")
-public class CommonCodeGroup {
+public class CommonCodeGroup extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
