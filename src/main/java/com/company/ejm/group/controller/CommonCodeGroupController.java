@@ -75,7 +75,7 @@ public class CommonCodeGroupController {
     @PatchMapping("/common-code-groups/{groupId}")
     public ApiResponse<CommonCodeGroupBaseDto> editCommonCodeGroup(@PathVariable Long groupId, @Validated @RequestBody CommonCodeGroupRequestDto commonCodeGroupRequestDto) {
 
-        return ApiResponse.success(OK, commonCodeGroupService.editCommonCodeGroup(groupId,
+        return ApiResponse.success(OK, commonCodeGroupService.edit(groupId,
                                                                                     commonCodeGroupRequestDto.getName(),
                                                                                     commonCodeGroupRequestDto.getValue(),
                                                                                     commonCodeGroupRequestDto.getDescription()));
@@ -87,7 +87,7 @@ public class CommonCodeGroupController {
     @DeleteMapping("/common-code-groups/{groupId}")
     public ApiResponse removeCommonCodeGroup(@PathVariable Long groupId) {
 
-        commonCodeGroupService.removeCommonCodeGroup(groupId);
+        commonCodeGroupService.remove(groupId);
         return ApiResponse.success(OK);
     }
 }
