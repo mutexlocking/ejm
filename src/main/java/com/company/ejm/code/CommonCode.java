@@ -42,5 +42,9 @@ public class CommonCode extends BaseEntity {
     public void changeValue(Integer value) {
         this.value = value;
     }
+
+    public void changeDescription(String description) {
+        this.description = description;
+    }
 }
 

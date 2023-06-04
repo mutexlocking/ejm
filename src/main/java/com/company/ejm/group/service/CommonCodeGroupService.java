@@ -104,6 +104,8 @@ public class CommonCodeGroupService {
         return CommonCodeGroupDetailDto.toDto(commonCodeGroup);
     }
 
+    /** --------------------------------------------------------------------------------------------------------------*/
+
 
     /**
      *  [공통코드그룹들을 모두 조회하는 서비스]
@@ -118,5 +120,37 @@ public class CommonCodeGroupService {
                                        .summaryDtoList(summaryDtoList)
                                        .totalCount(totalCount)
                                        .build();
+    }
+
+    /** --------------------------------------------------------------------------------------------------------------*/
+
+
+    /**
+     * [공통코드그룹 값을 수정하는 서비스]
+     * */
+    @Transactional
+    public CommonCodeGroupBaseDto editCommonCodeGroup(Long groupId, String name, Integer value, String description) {
+
+        CommonCodeGroup commonCodeGroup = commonCodeGroupRepository.findByIdAndStatus(groupId, Status.ACTIVE).orElseThrow(
+                () -> {
+                    throw new ApiException(ApiResponseStatus.NOT_FOUND_GROUP, "공통코드그룹 ID로 조회 시점 : 유효한 공통코드그룹을 찾을 수 없음");
+                }
+        );
+
+        commonCodeGroup.changeName(name);
+        commonCodeGroup.changeValue(value);
+        commonCodeGroup.changeDescription(description);
+
+        return CommonCodeGroupBaseDto.toDto(commonCodeGroup);
+    }
+
+    /** --------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * [공통코드그룹 값을 논리적으로 삭제하는 서비스]
+     * */
+    @Transactional
+    public void removeCommonCodeGroup(Long groupId) {
+
     }
 }
