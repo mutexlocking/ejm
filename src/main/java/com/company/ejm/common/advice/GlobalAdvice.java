@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.stream.Collectors;
 
-import static com.company.ejm.common.response.ApiResponseStatus.INVALID_ENUM;
+import static com.company.ejm.common.response.ApiResponseStatus.INVALID_HTTP_REQUEST_VALUE;
 
 @Slf4j
 @RestControllerAdvice
@@ -71,21 +71,21 @@ public class GlobalAdvice {
     }
 
     /**
-     * [정의되지 않은 enum 값이 넘어왔을 떄 터지는 Exception을 처리하는 Exception Handler]
+     * [잘못된 요청값이 들어온 경우]
      * */
     @ExceptionHandler
-    public ApiResponse inCorrectEnum(HttpMessageNotReadableException e){
-        log.error("EXCEPTION = {} , EXCEPTION_MESSAGE = {}, INTERNAL_MESSAGE = {}", INVALID_ENUM, e.getMessage(),"정의하지 않은, 잘못된 enum 값이 요청으로 들어왔습니다.");
-        return ApiResponse.fail(INVALID_ENUM);
+    public ApiResponse invalidHttpRequest(HttpMessageNotReadableException e){
+        log.error("EXCEPTION = {} , EXCEPTION_MESSAGE = {}, INTERNAL_MESSAGE = {}", INVALID_HTTP_REQUEST_VALUE, e.getMessage(),"잘못된 HTTP 요청값이 들어왔습니다.");
+        return ApiResponse.fail(INVALID_HTTP_REQUEST_VALUE);
     }
 
     /**
      * [설정한 HTTP 메소드와 다른 HTTP 메소드로 요청이 들어온 경우]
      * */
     @ExceptionHandler
-    public ApiResponse inCorrectHttpMethod(HttpRequestMethodNotSupportedException e){
+    public ApiResponse invalidHttpMethod(HttpRequestMethodNotSupportedException e){
         log.error("EXCEPTION = {} , INTERNAL_MESSAGE = {}", e, e.getMessage());
-        return ApiResponse.fail(ApiResponseStatus.INCORRECT_HTTP_METHOD);
+        return ApiResponse.fail(ApiResponseStatus.INVALID_HTTP_METHOD);
     }
 
 

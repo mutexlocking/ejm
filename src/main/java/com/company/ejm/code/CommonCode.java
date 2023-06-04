@@ -23,6 +23,8 @@ public class CommonCode extends BaseEntity {
 
     private Integer value;
 
+    private String description;
+
     @Enumerated(EnumType.STRING)
     private Status status;
 
@@ -39,6 +41,14 @@ public class CommonCode extends BaseEntity {
 
     public void changeValue(Integer value) {
         this.value = value;
+    }
+
+    public void changeDescription(String description) {
+        this.description = description;
+    }
+
+    public void changeStatus(Status status) {
+        this.status = status;
     }
 }
 
