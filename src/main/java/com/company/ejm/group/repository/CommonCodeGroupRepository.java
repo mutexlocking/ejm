@@ -3,12 +3,16 @@ package com.company.ejm.group.repository;
 import com.company.ejm.common.enums.Status;
 import com.company.ejm.group.CommonCodeGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
 public interface CommonCodeGroupRepository extends JpaRepository<CommonCodeGroup, Long> , CommonCodeGroupRepositoryCustom {
 
-    boolean existsByNameAndStatus(String name, Status status);
+    boolean existsByName(String name);
+
+    boolean existsByValue(Integer value);
 
     boolean existsByValueAndStatus(Integer value, Status status);
 
@@ -19,4 +23,7 @@ public interface CommonCodeGroupRepository extends JpaRepository<CommonCodeGroup
     Optional<CommonCodeGroup> findByValueAndStatus(Integer value, Status status);
 
     long countByStatus(Status status);
+
+    @Query("select distinct cg from CommonCodeGroup cg join fetch cg.commonCodeList where cg.id=:id and cg.status=:status")
+    Optional<CommonCodeGroup> findByIdAndStatusWithCode(@Param("id") Long id, @Param("status") Status status);
 }

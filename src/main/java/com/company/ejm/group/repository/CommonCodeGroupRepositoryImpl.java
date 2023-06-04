@@ -16,7 +16,6 @@ public class CommonCodeGroupRepositoryImpl implements CommonCodeGroupRepositoryC
 
     private JPAQueryFactory queryFactory;
 
-
     public CommonCodeGroupRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }

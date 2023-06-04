@@ -4,9 +4,19 @@ import com.company.ejm.code.CommonCode;
 import com.company.ejm.common.enums.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CommonCodeRepository extends JpaRepository<CommonCode, Long> {
+import java.util.Optional;
 
-    boolean existsByNameAndStatus(String name, Status status);
+public interface CommonCodeRepository extends JpaRepository<CommonCode, Long> , CommonCodeRepositoryCustom {
 
-    boolean existsByValueAndStatus(Integer value, Status status);
+    boolean existsByName(String name);
+
+    boolean existsByValue(Integer value);
+
+    Optional<CommonCode> findByIdAndStatus(Long id, Status status);;
+
+    Optional<CommonCode> findByNameAndStatus(String name, Status status);
+
+    Optional<CommonCode> findByValueAndStatus(Integer value, Status status);
+
+    long countByStatus(Status status);
 }

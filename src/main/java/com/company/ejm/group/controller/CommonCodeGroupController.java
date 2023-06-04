@@ -4,6 +4,7 @@ import com.company.ejm.common.response.ApiResponse;
 import com.company.ejm.group.dto.request.CommonCodeGroupRequestDto;
 import com.company.ejm.group.dto.response.CommonCodeGroupBaseDto;
 import com.company.ejm.group.dto.response.CommonCodeGroupDetailDto;
+import com.company.ejm.group.dto.response.join.CommonCodeGroupJoinDto;
 import com.company.ejm.group.dto.response.paging.CommonCodeGroupPagingDto;
 import com.company.ejm.group.service.CommonCodeGroupService;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,7 @@ public class CommonCodeGroupController {
     @GetMapping("/common-code-groups/{groupId}")
     public ApiResponse<CommonCodeGroupDetailDto> getCommonCodeGroupById(@PathVariable Long groupId) {
 
-        return ApiResponse.success(OK, commonCodeGroupService.getCommonCodeGroup(groupId));
+        return ApiResponse.success(OK, commonCodeGroupService.getCommonCodeGroupById(groupId));
     }
 
 
@@ -49,14 +50,14 @@ public class CommonCodeGroupController {
     @GetMapping(value = "/common-code-groups", params = "name")
     public ApiResponse<CommonCodeGroupDetailDto> getCommonCodeGroupByName(@RequestParam String name) {
 
-        return ApiResponse.success(OK, commonCodeGroupService.getCommonCodeGroup(name));
+        return ApiResponse.success(OK, commonCodeGroupService.getCommonCodeGroupByName(name));
     }
 
     /** [코드그룹값으로 조회] */
     @GetMapping(value = "/common-code-groups", params = "value")
-    public ApiResponse<CommonCodeGroupDetailDto> getCommonCodeGroupByValue(@RequestParam int value) {
+    public ApiResponse<CommonCodeGroupDetailDto> getCommonCodeGroupByValue(@RequestParam Integer value) {
 
-        return ApiResponse.success(OK, commonCodeGroupService.getCommonCodeGroup(value));
+        return ApiResponse.success(OK, commonCodeGroupService.getCommonCodeGroupByValue(value));
     }
 
 
@@ -75,10 +76,10 @@ public class CommonCodeGroupController {
     @PatchMapping("/common-code-groups/{groupId}")
     public ApiResponse<CommonCodeGroupBaseDto> editCommonCodeGroup(@PathVariable Long groupId, @Validated @RequestBody CommonCodeGroupRequestDto commonCodeGroupRequestDto) {
 
-        return ApiResponse.success(OK, commonCodeGroupService.editCommonCodeGroup(groupId,
-                                                                                    commonCodeGroupRequestDto.getName(),
-                                                                                    commonCodeGroupRequestDto.getValue(),
-                                                                                    commonCodeGroupRequestDto.getDescription()));
+        return ApiResponse.success(OK, commonCodeGroupService.edit(groupId,
+                                                                    commonCodeGroupRequestDto.getName(),
+                                                                    commonCodeGroupRequestDto.getValue(),
+                                                                    commonCodeGroupRequestDto.getDescription()));
     }
 
     /**
@@ -87,8 +88,20 @@ public class CommonCodeGroupController {
     @DeleteMapping("/common-code-groups/{groupId}")
     public ApiResponse removeCommonCodeGroup(@PathVariable Long groupId) {
 
-        commonCodeGroupService.removeCommonCodeGroup(groupId);
+        commonCodeGroupService.remove(groupId);
         return ApiResponse.success(OK);
     }
+
+    /**
+     * [API 9.] : CommonCodeGroup으로 CommonCodeList 조회
+     */
+
+    @GetMapping("/common-code-groups/{groupId}/common-codes")
+    public ApiResponse<CommonCodeGroupJoinDto> getCommonCodeGroupWithCodeList(@PathVariable Long groupId) {
+
+        return ApiResponse.success(OK, commonCodeGroupService.getCommonCodeGroupWithCodeList(groupId));
+    }
+
+
 }
 
