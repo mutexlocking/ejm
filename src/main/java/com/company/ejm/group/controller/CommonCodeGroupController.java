@@ -41,7 +41,7 @@ public class CommonCodeGroupController {
     @GetMapping("/common-code-groups/{groupId}")
     public ApiResponse<CommonCodeGroupDetailDto> getCommonCodeGroupById(@PathVariable Long groupId) {
 
-        return ApiResponse.success(OK, commonCodeGroupService.getCommonCodeGroup(groupId));
+        return ApiResponse.success(OK, commonCodeGroupService.getCommonCodeGroupById(groupId));
     }
 
 
@@ -49,14 +49,14 @@ public class CommonCodeGroupController {
     @GetMapping(value = "/common-code-groups", params = "name")
     public ApiResponse<CommonCodeGroupDetailDto> getCommonCodeGroupByName(@RequestParam String name) {
 
-        return ApiResponse.success(OK, commonCodeGroupService.getCommonCodeGroup(name));
+        return ApiResponse.success(OK, commonCodeGroupService.getCommonCodeGroupByName(name));
     }
 
     /** [코드그룹값으로 조회] */
     @GetMapping(value = "/common-code-groups", params = "value")
-    public ApiResponse<CommonCodeGroupDetailDto> getCommonCodeGroupByValue(@RequestParam int value) {
+    public ApiResponse<CommonCodeGroupDetailDto> getCommonCodeGroupByValue(@RequestParam Integer value) {
 
-        return ApiResponse.success(OK, commonCodeGroupService.getCommonCodeGroup(value));
+        return ApiResponse.success(OK, commonCodeGroupService.getCommonCodeGroupByValue(value));
     }
 
 

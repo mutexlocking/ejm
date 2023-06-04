@@ -62,7 +62,7 @@ public class CommonCodeGroupService {
      *  : id로 조회
      */
 
-    public CommonCodeGroupDetailDto getCommonCodeGroup(Long groupId) {
+    public CommonCodeGroupDetailDto getCommonCodeGroupById(Long groupId) {
 
         CommonCodeGroup commonCodeGroup = commonCodeGroupRepository.findByIdAndStatus(groupId, Status.ACTIVE).orElseThrow(
                 () -> {
@@ -78,7 +78,7 @@ public class CommonCodeGroupService {
      *  : 이름으로 조회
      */
 
-    public CommonCodeGroupDetailDto getCommonCodeGroup(String name) {
+    public CommonCodeGroupDetailDto getCommonCodeGroupByName(String name) {
 
         CommonCodeGroup commonCodeGroup = commonCodeGroupRepository.findByNameAndStatus(name, Status.ACTIVE).orElseThrow(
                 () -> {
@@ -93,7 +93,7 @@ public class CommonCodeGroupService {
      *  [공통코드그룹을 조회하는 서비스]
      *  : 코드그룹값으로 조회
      */
-    public CommonCodeGroupDetailDto getCommonCodeGroup(int value) {
+    public CommonCodeGroupDetailDto getCommonCodeGroupByValue(Integer value) {
 
         CommonCodeGroup commonCodeGroup = commonCodeGroupRepository.findByValueAndStatus(value, Status.ACTIVE).orElseThrow(
                 () -> {
