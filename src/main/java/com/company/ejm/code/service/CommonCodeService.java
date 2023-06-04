@@ -2,6 +2,7 @@ package com.company.ejm.code.service;
 
 import com.company.ejm.code.CommonCode;
 import com.company.ejm.code.dto.response.CommonCodeBaseDto;
+import com.company.ejm.code.dto.response.CommonCodeDetailDto;
 import com.company.ejm.code.repository.CommonCodeRepository;
 import com.company.ejm.common.enums.Status;
 import com.company.ejm.common.response.ApiException;
@@ -71,4 +72,50 @@ public class CommonCodeService {
         //3. 응답
         return CommonCodeBaseDto.toDto(commonCode);
     }
+
+    /**---------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * [id로 공통코드 조회 서비스]
+     * */
+    public CommonCodeDetailDto getCommonCodeById(Long codeId) {
+
+        CommonCode commonCode = commonCodeRepository.findByIdAndStatus(codeId, Status.ACTIVE).orElseThrow(
+                () -> {
+                    throw new ApiException(ApiResponseStatus.NOT_FOUND_CODE, "공통코드 id로 조회 시점 : 유효한 공통코드를 찾을 수 없음");
+                }
+        );
+
+        return CommonCodeDetailDto.toDto(commonCode);
+    }
+
+    /**
+     * [이름으로 공통코드 조회 서비스]
+     * */
+    public CommonCodeDetailDto getCommonCodeByName(String name) {
+
+        CommonCode commonCode = commonCodeRepository.findByNameAndStatus(name, Status.ACTIVE).orElseThrow(
+                () -> {
+                    throw new ApiException(ApiResponseStatus.NOT_FOUND_CODE, "공통코드 이름으로 조회 시점 : 유효한 공통코드를 찾을 수 없음");
+                }
+        );
+
+        return CommonCodeDetailDto.toDto(commonCode);
+    }
+
+    /**
+     * [코드값으로 공통코드 조회 서비스]
+     * */
+    public CommonCodeDetailDto getCommonCodeByValue(Integer value) {
+
+        CommonCode commonCode = commonCodeRepository.findByValueAndStatus(value, Status.ACTIVE).orElseThrow(
+                () -> {
+                    throw new ApiException(ApiResponseStatus.NOT_FOUND_CODE, "공통코드 코드값으로 조회 시점 : 유효한 공통코드를 찾을 수 없음");
+                }
+        );
+
+        return CommonCodeDetailDto.toDto(commonCode);
+    }
+
+    /**---------------------------------------------------------------------------------------------------------------*/
 }
