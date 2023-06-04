@@ -84,5 +84,11 @@ public class CommonCodeGroupController {
     /**
      * [API 4.] : CommonCodeGroup 삭제
      * */
+    @DeleteMapping("/common-code-groups/{groupId}")
+    public ApiResponse removeCommonCodeGroup(@PathVariable Long groupId) {
+
+        commonCodeGroupService.removeCommonCodeGroup(groupId);
+        return ApiResponse.success(OK);
+    }
 }
 

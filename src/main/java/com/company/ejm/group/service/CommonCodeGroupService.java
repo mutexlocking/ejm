@@ -114,7 +114,7 @@ public class CommonCodeGroupService {
     public CommonCodeGroupPagingDto getCommonCodeGroupList(Pageable pageable) {
 
         List<CommonCodeGroupSummaryDto> summaryDtoList = commonCodeGroupRepository.findCommonCodeGroupList(pageable);
-        long totalCount = commonCodeGroupRepository.count();
+        long totalCount = commonCodeGroupRepository.countByStatus(Status.ACTIVE);
 
         return CommonCodeGroupPagingDto.builder()
                                        .summaryDtoList(summaryDtoList)
@@ -152,5 +152,12 @@ public class CommonCodeGroupService {
     @Transactional
     public void removeCommonCodeGroup(Long groupId) {
 
+        CommonCodeGroup commonCodeGroup = commonCodeGroupRepository.findByIdAndStatus(groupId, Status.ACTIVE).orElseThrow(
+                () -> {
+                    throw new ApiException(ApiResponseStatus.NOT_FOUND_GROUP, "공통코드그룹 ID로 조회 시점 : 유효한 공통코드그룹을 찾을 수 없음");
+                }
+        );
+
+        commonCodeGroup.changeStatus(Status.INACTIVE);
     }
 }
