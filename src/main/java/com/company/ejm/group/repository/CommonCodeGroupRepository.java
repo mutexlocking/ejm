@@ -8,7 +8,9 @@ import java.util.Optional;
 
 public interface CommonCodeGroupRepository extends JpaRepository<CommonCodeGroup, Long> , CommonCodeGroupRepositoryCustom {
 
-    boolean existsByNameAndStatus(String name, Status status);
+    boolean existsByName(String name);
+
+    boolean existsByValue(Integer value);
 
     boolean existsByValueAndStatus(Integer value, Status status);
 

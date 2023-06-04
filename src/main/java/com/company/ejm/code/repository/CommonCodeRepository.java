@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CommonCodeRepository extends JpaRepository<CommonCode, Long> {
 
-    boolean existsByNameAndStatus(String name, Status status);
+    boolean existsByName(String name);
 
-    boolean existsByValueAndStatus(Integer value, Status status);
+    boolean existsByValue(Integer value);
 }
