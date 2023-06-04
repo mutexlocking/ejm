@@ -3,6 +3,8 @@ package com.company.ejm.code.service;
 import com.company.ejm.code.CommonCode;
 import com.company.ejm.code.dto.response.CommonCodeBaseDto;
 import com.company.ejm.code.dto.response.CommonCodeDetailDto;
+import com.company.ejm.code.dto.response.paging.CommonCodePagingDto;
+import com.company.ejm.code.dto.response.paging.CommonCodeSummaryDto;
 import com.company.ejm.code.repository.CommonCodeRepository;
 import com.company.ejm.common.enums.Status;
 import com.company.ejm.common.response.ApiException;
@@ -10,8 +12,11 @@ import com.company.ejm.common.response.ApiResponseStatus;
 import com.company.ejm.group.CommonCodeGroup;
 import com.company.ejm.group.repository.CommonCodeGroupRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -115,6 +120,23 @@ public class CommonCodeService {
         );
 
         return CommonCodeDetailDto.toDto(commonCode);
+    }
+
+    /**---------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * [공통코드들을 모두 조회하는 서비스]
+     * : 페이징 처리
+     * */
+    public CommonCodePagingDto getCommonCodeList(Pageable pageable) {
+
+        List<CommonCodeSummaryDto> summaryDtoList = commonCodeRepository.getCommonCodeList(pageable);
+        long totalCount = commonCodeRepository.countByStatus(Status.ACTIVE);
+
+        return CommonCodePagingDto.builder()
+                                  .summaryDtoList(summaryDtoList)
+                                  .totalCount(totalCount)
+                                  .build();
     }
 
     /**---------------------------------------------------------------------------------------------------------------*/

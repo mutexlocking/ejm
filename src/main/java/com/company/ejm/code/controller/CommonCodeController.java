@@ -3,10 +3,13 @@ package com.company.ejm.code.controller;
 import com.company.ejm.code.dto.request.CommonCodeRequestDto;
 import com.company.ejm.code.dto.response.CommonCodeBaseDto;
 import com.company.ejm.code.dto.response.CommonCodeDetailDto;
+import com.company.ejm.code.dto.response.paging.CommonCodePagingDto;
 import com.company.ejm.code.service.CommonCodeService;
 import com.company.ejm.common.response.ApiResponse;
 import com.company.ejm.common.response.ApiResponseStatus;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,5 +57,14 @@ public class CommonCodeController {
     public ApiResponse<CommonCodeDetailDto> getCommonCodeByValue(@RequestParam Integer value) {
 
         return ApiResponse.success(OK, commonCodeService.getCommonCodeByValue(value));
+    }
+
+    /**
+     * [API 6_2.] : CommonCode 전체 조회
+     * */
+    @GetMapping("/common-codes")
+    public ApiResponse<CommonCodePagingDto> getCommonCodeList(@PageableDefault(value = 0, size = 20) Pageable pageable) {
+
+        return ApiResponse.success(OK, commonCodeService.getCommonCodeList(pageable));
     }
 }
