@@ -1,11 +1,13 @@
 package com.company.ejm.group.service;
 
+import com.company.ejm.code.dto.response.paging.CommonCodeSummaryDto;
 import com.company.ejm.common.enums.Status;
 import com.company.ejm.common.response.ApiException;
 import com.company.ejm.common.response.ApiResponseStatus;
 import com.company.ejm.group.CommonCodeGroup;
 import com.company.ejm.group.dto.response.CommonCodeGroupBaseDto;
 import com.company.ejm.group.dto.response.CommonCodeGroupDetailDto;
+import com.company.ejm.group.dto.response.join.CommonCodeGroupJoinDto;
 import com.company.ejm.group.dto.response.paging.CommonCodeGroupPagingDto;
 import com.company.ejm.group.dto.response.paging.CommonCodeGroupSummaryDto;
 import com.company.ejm.group.repository.CommonCodeGroupRepository;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -72,7 +75,7 @@ public class CommonCodeGroupService {
         );
 
         //2. 응답
-        return CommonCodeGroupDetailDto.toDto(commonCodeGroup);
+       return CommonCodeGroupDetailDto.toDto(commonCodeGroup);
     }
 
     /**
@@ -185,5 +188,34 @@ public class CommonCodeGroupService {
 
         //2. Status값을 INACTIVE 하게 변경하므로써 -> 논리적 삭제 수행
         commonCodeGroup.changeStatus(Status.INACTIVE);
+    }
+
+    /** --------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * [공통코드그룹 조회시 , 연관된 공통코드들을 함께 조회해오는 서비스]
+     * */
+    public CommonCodeGroupJoinDto getCommonCodeGroupWithCodeList(Long groupId) {
+
+        //1. 해당 groupId에 대한 공통코드그룹을 조회하면서 -> 연관된 공통코드들을 모두 함께 조회
+        CommonCodeGroup commonCodeGroup = commonCodeGroupRepository.findByIdAndStatusWithCode(groupId, Status.ACTIVE).orElseThrow(
+                () -> {
+                    throw new ApiException(ApiResponseStatus.NOT_FOUND_GROUP, "공통코드그룹 ID로 연관된 공통코드들까지 함께 조회 시점 : 유효한 공통코드그룹을 찾을 수 없음");
+                }
+        );
+
+        //2_1. 공통코드그룹을 SummaryDto로 변환
+        CommonCodeGroupSummaryDto commonCodeGroupSummaryDto = CommonCodeGroupSummaryDto.toDto(commonCodeGroup);
+
+        //2_2. 공통코드들을 SummaryDtoList로 변환
+        List<CommonCodeSummaryDto> commonCodeSummaryDtoList = commonCodeGroup.getCommonCodeList().stream()
+                .map(commonCode -> CommonCodeSummaryDto.toDto(commonCode))
+                .collect(Collectors.toList());
+
+        //3. 응답에 모두 담아 리턴
+        return CommonCodeGroupJoinDto.builder()
+                                     .commonCodeGroupSummaryDto(commonCodeGroupSummaryDto)
+                                     .commonCodeSummaryDtoList(commonCodeSummaryDtoList)
+                                     .build();
     }
 }

@@ -1,10 +1,12 @@
 package com.company.ejm.group.dto.response.paging;
 
+import com.company.ejm.group.CommonCodeGroup;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
 
 @Getter
 @Setter
+@Builder
 public class CommonCodeGroupSummaryDto {
 
     private Long id;
@@ -16,5 +18,13 @@ public class CommonCodeGroupSummaryDto {
         this.id = id;
         this.name = name;
         this.value = value;
+    }
+
+    public static CommonCodeGroupSummaryDto toDto(CommonCodeGroup commonCodeGroup) {
+        return CommonCodeGroupSummaryDto.builder()
+                                        .id(commonCodeGroup.getId())
+                                        .name(commonCodeGroup.getName())
+                                        .value(commonCodeGroup.getValue())
+                                        .build();
     }
 }
