@@ -85,12 +85,14 @@ public class CommonCodeService {
      * */
     public CommonCodeDetailDto getCommonCodeById(Long codeId) {
 
+        //1. 공통코드의 ID로 -> 유효한 공통코드를 조회
         CommonCode commonCode = commonCodeRepository.findByIdAndStatus(codeId, Status.ACTIVE).orElseThrow(
                 () -> {
                     throw new ApiException(ApiResponseStatus.NOT_FOUND_CODE, "공통코드 id로 조회 시점 : 유효한 공통코드를 찾을 수 없음");
                 }
         );
 
+        //2. 응답
         return CommonCodeDetailDto.toDto(commonCode);
     }
 
@@ -99,12 +101,14 @@ public class CommonCodeService {
      * */
     public CommonCodeDetailDto getCommonCodeByName(String name) {
 
+        //1. 공통코드의 이름으로 -> 유효한 공통코드를 조회
         CommonCode commonCode = commonCodeRepository.findByNameAndStatus(name, Status.ACTIVE).orElseThrow(
                 () -> {
                     throw new ApiException(ApiResponseStatus.NOT_FOUND_CODE, "공통코드 이름으로 조회 시점 : 유효한 공통코드를 찾을 수 없음");
                 }
         );
 
+        //2. 응답
         return CommonCodeDetailDto.toDto(commonCode);
     }
 
@@ -113,12 +117,14 @@ public class CommonCodeService {
      * */
     public CommonCodeDetailDto getCommonCodeByValue(Integer value) {
 
+        //1. 공통코드의 코드값으로 -> 유효한 공통코드를 조회
         CommonCode commonCode = commonCodeRepository.findByValueAndStatus(value, Status.ACTIVE).orElseThrow(
                 () -> {
                     throw new ApiException(ApiResponseStatus.NOT_FOUND_CODE, "공통코드 코드값으로 조회 시점 : 유효한 공통코드를 찾을 수 없음");
                 }
         );
 
+        //2. 응답
         return CommonCodeDetailDto.toDto(commonCode);
     }
 
@@ -130,9 +136,13 @@ public class CommonCodeService {
      * */
     public CommonCodePagingDto getCommonCodeList(Pageable pageable) {
 
+        //1. 페이징처리를 하여 , 전체 공통코드들을 조회한 후,
         List<CommonCodeSummaryDto> summaryDtoList = commonCodeRepository.getCommonCodeList(pageable);
+
+        //2. 이들에 대한 totalCount를 조회한 후
         long totalCount = commonCodeRepository.countByStatus(Status.ACTIVE);
 
+        //3. 이들을 모두 응답에 담아서 리턴
         return CommonCodePagingDto.builder()
                                   .summaryDtoList(summaryDtoList)
                                   .totalCount(totalCount)
@@ -178,12 +188,32 @@ public class CommonCodeService {
         }
 
 
-        //3. 그후 진짜 수정정
+        //3. 그후 진짜 수정
         commonCode.changeName(name);
         commonCode.changeValue(value);
         commonCode.changeDescription(description);
 
         //4. 응답
         return CommonCodeBaseDto.toDto(commonCode);
+    }
+
+    /**---------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * [공통코드 삭제 서비스]
+     * : 물리적 삭제가 아닌, 논리적 삭제
+     * */
+    @Transactional
+    public void remove(Long codeId) {
+
+        //1. 기존 공통코드 조회 후
+        CommonCode commonCode = commonCodeRepository.findByIdAndStatus(codeId, Status.ACTIVE).orElseThrow(
+                () -> {
+                    throw new ApiException(ApiResponseStatus.NOT_FOUND_CODE, "공통코드 삭제 시점 : 유효한 공통코드를 찾을 수 없음");
+                }
+        );
+
+        //2. Status를 INACTIVE 하게 변경하여 -> 논리적인 삭제를 함.
+        commonCode.changeStatus(Status.INACTIVE);
     }
 }
