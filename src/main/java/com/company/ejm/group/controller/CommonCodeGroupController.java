@@ -3,11 +3,17 @@ package com.company.ejm.group.controller;
 import com.company.ejm.common.response.ApiResponse;
 import com.company.ejm.group.dto.request.CommonCodeGroupRequestDto;
 import com.company.ejm.group.dto.response.CommonCodeGroupBaseDto;
-import com.company.ejm.group.dto.response.CommonCodeGroupResponseDto;
+import com.company.ejm.group.dto.response.CommonCodeGroupDetailDto;
+import com.company.ejm.group.dto.response.paging.CommonCodeGroupPagingDto;
 import com.company.ejm.group.service.CommonCodeGroupService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import static com.company.ejm.common.response.ApiResponseStatus.CREATED;
 import static com.company.ejm.common.response.ApiResponseStatus.OK;
@@ -36,7 +42,7 @@ public class CommonCodeGroupController {
 
     /** [id로 조회] */
     @GetMapping("/common-code-groups/{groupId}")
-    public ApiResponse<CommonCodeGroupResponseDto> getCommonCodeGroupById(@PathVariable Long groupId) {
+    public ApiResponse<CommonCodeGroupDetailDto> getCommonCodeGroupById(@PathVariable Long groupId) {
 
         return ApiResponse.success(OK, commonCodeGroupService.getCommonCodeGroup(groupId));
     }
@@ -44,14 +50,14 @@ public class CommonCodeGroupController {
 
     /** [이름으로 조회] */
     @GetMapping(value = "/common-code-groups", params = "name")
-    public ApiResponse<CommonCodeGroupResponseDto> getCommonCodeGroupByName(@RequestParam String name) {
+    public ApiResponse<CommonCodeGroupDetailDto> getCommonCodeGroupByName(@RequestParam String name) {
 
         return ApiResponse.success(OK, commonCodeGroupService.getCommonCodeGroup(name));
     }
 
     /** [코드그룹값으로 조회] */
     @GetMapping(value = "/common-code-groups", params = "value")
-    public ApiResponse<CommonCodeGroupResponseDto> getCommonCodeGroupByValue(@RequestParam int value) {
+    public ApiResponse<CommonCodeGroupDetailDto> getCommonCodeGroupByValue(@RequestParam int value) {
 
         return ApiResponse.success(OK, commonCodeGroupService.getCommonCodeGroup(value));
     }
@@ -60,7 +66,11 @@ public class CommonCodeGroupController {
     /**
      * [API 2_2.] : CommonCodeGroup 전체 조회
      * */
+    @GetMapping("/common-code-groups")
+    public ApiResponse<CommonCodeGroupPagingDto> getCommonCodeGroupList(@PageableDefault(value = 0, size = 20) Pageable pageable) {
 
+        return ApiResponse.success(OK, commonCodeGroupService.getCommonCodeGroupList(pageable));
+    }
 
     /**
      * [API 3.] : CommonCodeGroup 수정

@@ -5,11 +5,16 @@ import com.company.ejm.common.response.ApiException;
 import com.company.ejm.common.response.ApiResponseStatus;
 import com.company.ejm.group.CommonCodeGroup;
 import com.company.ejm.group.dto.response.CommonCodeGroupBaseDto;
-import com.company.ejm.group.dto.response.CommonCodeGroupResponseDto;
+import com.company.ejm.group.dto.response.CommonCodeGroupDetailDto;
+import com.company.ejm.group.dto.response.paging.CommonCodeGroupPagingDto;
+import com.company.ejm.group.dto.response.paging.CommonCodeGroupSummaryDto;
 import com.company.ejm.group.repository.CommonCodeGroupRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -57,7 +62,7 @@ public class CommonCodeGroupService {
      *  : id로 조회
      */
 
-    public CommonCodeGroupResponseDto getCommonCodeGroup(Long groupId) {
+    public CommonCodeGroupDetailDto getCommonCodeGroup(Long groupId) {
 
         CommonCodeGroup commonCodeGroup = commonCodeGroupRepository.findByIdAndStatus(groupId, Status.ACTIVE).orElseThrow(
                 () -> {
@@ -65,7 +70,7 @@ public class CommonCodeGroupService {
                 }
         );
 
-        return CommonCodeGroupResponseDto.toDto(commonCodeGroup);
+        return CommonCodeGroupDetailDto.toDto(commonCodeGroup);
     }
 
     /**
@@ -73,7 +78,7 @@ public class CommonCodeGroupService {
      *  : 이름으로 조회
      */
 
-    public CommonCodeGroupResponseDto getCommonCodeGroup(String name) {
+    public CommonCodeGroupDetailDto getCommonCodeGroup(String name) {
 
         CommonCodeGroup commonCodeGroup = commonCodeGroupRepository.findByNameAndStatus(name, Status.ACTIVE).orElseThrow(
                 () -> {
@@ -81,14 +86,14 @@ public class CommonCodeGroupService {
                 }
         );
 
-        return CommonCodeGroupResponseDto.toDto(commonCodeGroup);
+        return CommonCodeGroupDetailDto.toDto(commonCodeGroup);
     }
 
     /**
      *  [공통코드그룹을 조회하는 서비스]
      *  : 코드그룹값으로 조회
      */
-    public CommonCodeGroupResponseDto getCommonCodeGroup(int value) {
+    public CommonCodeGroupDetailDto getCommonCodeGroup(int value) {
 
         CommonCodeGroup commonCodeGroup = commonCodeGroupRepository.findByValueAndStatus(value, Status.ACTIVE).orElseThrow(
                 () -> {
@@ -96,6 +101,22 @@ public class CommonCodeGroupService {
                 }
         );
 
-        return CommonCodeGroupResponseDto.toDto(commonCodeGroup);
+        return CommonCodeGroupDetailDto.toDto(commonCodeGroup);
+    }
+
+
+    /**
+     *  [공통코드그룹들을 모두 조회하는 서비스]
+     *  : 페이징 처리
+     */
+    public CommonCodeGroupPagingDto getCommonCodeGroupList(Pageable pageable) {
+
+        List<CommonCodeGroupSummaryDto> summaryDtoList = commonCodeGroupRepository.findCommonCodeGroupList(pageable);
+        long totalCount = commonCodeGroupRepository.count();
+
+        return CommonCodeGroupPagingDto.builder()
+                                       .summaryDtoList(summaryDtoList)
+                                       .totalCount(totalCount)
+                                       .build();
     }
 }
