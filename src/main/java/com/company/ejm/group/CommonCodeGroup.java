@@ -47,4 +47,8 @@ public class CommonCodeGroup {
     public void changeDescription(String description) {
         this.description = description;
     }
+
+    public void changeStatus(Status status) {
+        this.status = status;
+    }
 }

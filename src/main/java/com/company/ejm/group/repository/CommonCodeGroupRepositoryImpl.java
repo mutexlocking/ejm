@@ -1,5 +1,6 @@
 package com.company.ejm.group.repository;
 
+import com.company.ejm.common.enums.Status;
 import com.company.ejm.group.dto.response.paging.CommonCodeGroupSummaryDto;
 import com.company.ejm.group.dto.response.paging.QCommonCodeGroupSummaryDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -26,6 +27,7 @@ public class CommonCodeGroupRepositoryImpl implements CommonCodeGroupRepositoryC
         return queryFactory
                 .select(new QCommonCodeGroupSummaryDto(commonCodeGroup.id, commonCodeGroup.name, commonCodeGroup.value))
                 .from(commonCodeGroup)
+                .where(commonCodeGroup.status.eq(Status.ACTIVE))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(commonCodeGroup.value.asc())

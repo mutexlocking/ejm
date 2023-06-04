@@ -18,5 +18,5 @@ public interface CommonCodeGroupRepository extends JpaRepository<CommonCodeGroup
 
     Optional<CommonCodeGroup> findByValueAndStatus(Integer value, Status status);
 
-    long count();
+    long countByStatus(Status status);
 }
