@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface CommonCodeRepository extends JpaRepository<CommonCode, Long> {
+public interface CommonCodeRepository extends JpaRepository<CommonCode, Long> , CommonCodeRepositoryCustom {
 
     boolean existsByName(String name);
 
@@ -17,4 +17,6 @@ public interface CommonCodeRepository extends JpaRepository<CommonCode, Long> {
     Optional<CommonCode> findByNameAndStatus(String name, Status status);
 
     Optional<CommonCode> findByValueAndStatus(Integer value, Status status);
+
+    long countByStatus(Status status);
 }
