@@ -4,6 +4,7 @@ import com.company.ejm.common.response.ApiResponse;
 import com.company.ejm.group.dto.request.CommonCodeGroupRequestDto;
 import com.company.ejm.group.dto.response.CommonCodeGroupBaseDto;
 import com.company.ejm.group.dto.response.CommonCodeGroupDetailDto;
+import com.company.ejm.group.dto.response.join.CommonCodeGroupJoinDto;
 import com.company.ejm.group.dto.response.paging.CommonCodeGroupPagingDto;
 import com.company.ejm.group.service.CommonCodeGroupService;
 import lombok.RequiredArgsConstructor;
@@ -76,9 +77,9 @@ public class CommonCodeGroupController {
     public ApiResponse<CommonCodeGroupBaseDto> editCommonCodeGroup(@PathVariable Long groupId, @Validated @RequestBody CommonCodeGroupRequestDto commonCodeGroupRequestDto) {
 
         return ApiResponse.success(OK, commonCodeGroupService.edit(groupId,
-                                                                                    commonCodeGroupRequestDto.getName(),
-                                                                                    commonCodeGroupRequestDto.getValue(),
-                                                                                    commonCodeGroupRequestDto.getDescription()));
+                                                                    commonCodeGroupRequestDto.getName(),
+                                                                    commonCodeGroupRequestDto.getValue(),
+                                                                    commonCodeGroupRequestDto.getDescription()));
     }
 
     /**
@@ -90,5 +91,17 @@ public class CommonCodeGroupController {
         commonCodeGroupService.remove(groupId);
         return ApiResponse.success(OK);
     }
+
+    /**
+     * [API 9.] : CommonCodeGroup으로 CommonCodeList 조회
+     */
+
+    @GetMapping("/common-code-groups/{groupId}/common-codes")
+    public ApiResponse<CommonCodeGroupJoinDto> getCommonCodeGroupWithCodeList(@PathVariable Long groupId) {
+
+        return ApiResponse.success(OK, commonCodeGroupService.getCommonCodeGroupWithCodeList(groupId));
+    }
+
+
 }
 
