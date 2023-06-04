@@ -6,14 +6,11 @@ import com.company.ejm.code.dto.response.CommonCodeDetailDto;
 import com.company.ejm.code.dto.response.paging.CommonCodePagingDto;
 import com.company.ejm.code.service.CommonCodeService;
 import com.company.ejm.common.response.ApiResponse;
-import com.company.ejm.common.response.ApiResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.constraints.NotNull;
 
 import static com.company.ejm.common.response.ApiResponseStatus.CREATED;
 import static com.company.ejm.common.response.ApiResponseStatus.OK;
@@ -77,4 +74,13 @@ public class CommonCodeController {
         return ApiResponse.success(OK, commonCodeService.edit(codeId, commonCodeRequestDto.getName(), commonCodeRequestDto.getValue(), commonCodeRequestDto.getDescription()));
     }
 
+    /**
+     * [API 8.] : CommonCode 삭제
+     * */
+    @DeleteMapping("/common-codes/{codeId}")
+    public ApiResponse removeCommonCode(@PathVariable Long codeId) {
+
+        commonCodeService.remove(codeId);
+        return ApiResponse.success(OK);
+    }
 }
