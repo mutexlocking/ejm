@@ -9,4 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommonCodeController {
 
     private final CommonCodeService commonCodeService;
+
+
 }

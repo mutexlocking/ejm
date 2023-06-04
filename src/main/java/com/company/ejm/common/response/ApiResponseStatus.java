@@ -3,6 +3,8 @@ package com.company.ejm.common.response;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import java.io.File;
+
 /**
  * [ 1000단위 ] - 오류의 범위
  *  1000 : 요청 성공
@@ -13,15 +15,15 @@ import org.springframework.http.HttpStatus;
  *
  * [ 100단위 ] - 오류 도메인
  *  0 : 공통 오류
-
- *
+ *  1 : CommonCodeGroup 오류
+ *  2 : CommonCode 오류
  *
  * [10단위] - 오류 HTTP Method
  *  0~19 : Common
  *  20~39 : GET
  *  40~59 : POST
  *  60~79 : PATCH
- *  80~99 : else
+ *  80~99 : DELETE
  *
  *  [1 단위] - 그외 오류의 고유 식별자
  *          - 순서대로 설정해주면 됨
@@ -39,8 +41,11 @@ public enum ApiResponseStatus {
 
     VALIDATION_FAIL(false, HttpStatus.BAD_REQUEST,2000, "요청한 값의 검증 로직에서 오류가 발견되었습니다."),
     MISSING_REQUEST_PARAMETER(false, HttpStatus.BAD_REQUEST, 2001, "필수 쿼리파라미터 값이 넘어오지 않았습니다."),
-    INVALID_ENUM(false, HttpStatus.BAD_REQUEST, 2002, "정의되지 않은 enum 값이 넘어왔습니다."),
-    INCORRECT_HTTP_METHOD(false, HttpStatus.BAD_REQUEST, 2003, "잘못 매칭된 HTTP 메소드로 요청이 들어왔습니다."),
+    INVALID_HTTP_REQUEST_VALUE(false, HttpStatus.BAD_REQUEST, 2002, "잘못된 HTTP 요청값이 들어왔습니다."),
+    INVALID_HTTP_METHOD(false, HttpStatus.BAD_REQUEST, 2003, "잘못 매칭된 HTTP 메소드로 요청이 들어왔습니다."),
+
+    ALREADY_EXIST_GROUP(false, HttpStatus.BAD_REQUEST, 2241, "해당 이름 또는 코드그룹값을 가진 공통코드그룹이 이미 존재합니다."),
+    NOT_FOUND_GROUP(false,HttpStatus.BAD_REQUEST, 2242, "해당 공통코드그룹을 찾을 수 없습니다."),
 
 
     INTERNAL_SERVER_ERROR(false, HttpStatus.INTERNAL_SERVER_ERROR, 5000, "예상하지 못한 예외가 발생하였습니다.");

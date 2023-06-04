@@ -25,6 +25,8 @@ public class CommonCodeGroup {
 
     private Integer value;
 
+    private String description;
+
     @Enumerated(EnumType.STRING)
     private Status status;
 
