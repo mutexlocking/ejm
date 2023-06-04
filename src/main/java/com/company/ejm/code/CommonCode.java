@@ -23,6 +23,8 @@ public class CommonCode extends BaseEntity {
 
     private Integer value;
 
+    private String description;
+
     @Enumerated(EnumType.STRING)
     private Status status;
 
