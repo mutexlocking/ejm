@@ -159,13 +159,13 @@ public class CommonCodeGroupService {
                 }
         );
 
-        //2.수정할 이름 이미 사용중인지 + 수정할 코드값 이미 사용중인지 유효성 검사
-        if (commonCodeGroupRepository.existsByName(name)) {
+        //2. 자신을 제외한 다른 곳에서 -> 수정할 이름 이미 사용중인지 + 수정할 코드값 이미 사용중인지 유효성 검사
+        if (commonCodeGroupRepository.existsByNameAndIdIsNot(name, groupId)) {
 
             throw new ApiException(ApiResponseStatus.ALREADY_EXIST_GROUP, "공통코드그룹 수정 시점 : 해당 코드그룹명이 이미 사용중 입니다.");
         }
 
-        if (commonCodeGroupRepository.existsByValue(value)) {
+        if (commonCodeGroupRepository.existsByValueAndIdIsNot(value, groupId)) {
 
             throw new ApiException(ApiResponseStatus.ALREADY_EXIST_GROUP, "공통코드그룹 수정 시점 : 해당 코드그룹값이 이미 사용중 입니다.");
        }
