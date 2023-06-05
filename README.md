@@ -26,5 +26,6 @@ url : https://docs.google.com/spreadsheets/d/1Me-0xV_-Rbiyfthdoq5-vKH6ynD07yxNo1
 
 <공통코드 API Spec>
 
+
 url : https://docs.google.com/spreadsheets/d/1XFlWXCEkupE3GGOKOFwrcVf_ETusVnqciZoGHQDBtiw/edit?usp=sharing
 (하단 탭을 통해 API를 선택할 수 있음)
