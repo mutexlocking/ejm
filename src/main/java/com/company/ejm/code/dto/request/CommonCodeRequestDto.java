@@ -15,7 +15,7 @@ public class CommonCodeRequestDto {
     private String name;
 
     @NotNull
-    @Min(value = 10001, message = "공통코드그룹의 코드그룹값의 최솟값은 10001 이어야 합니다.")
+    @Min(value = 10000, message = "공통코드그룹의 코드그룹값의 최솟값은 10000 이어야 합니다.")
     @Max(value = 99999, message = "공통코드그룹의 코드그룹값의 최댓값은 99999 이어야 합니다.")
     private Integer value;
 
