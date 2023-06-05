@@ -181,13 +181,13 @@ public class CommonCodeService {
             throw new ApiException(ApiResponseStatus.SAME_GROUP_AND_CODE_NAME, "공통코드 수정 시점 : 해당 코드명이, 다른 공통코드그룹 이름과 겹칩니다.");
         }
 
-        //2_3. 수정할 이름 이미 사용중인지 + 수정할 코드값 이미 사용중인지 유효성 검사
+        //2_3. 자신을 제외한 다른곳에서 -> 수정할 이름 이미 사용중인지 + 수정할 코드값 이미 사용중인지 유효성 검사
 
-        if (commonCodeRepository.existsByName(name)) {
+        if (commonCodeRepository.existsByNameAndIdIsNot(name, codeId)) {
             throw new ApiException(ApiResponseStatus.ALREADY_EXIST_CODE, "공통코드 수정 시점 : 해당 코드명이 이미 사용중 입니다.");
         }
 
-        if (commonCodeRepository.existsByValue(value)) {
+        if (commonCodeRepository.existsByValueAndIdIsNot(value, codeId)) {
             throw new ApiException(ApiResponseStatus.ALREADY_EXIST_CODE, "공통코드 수정 시점 : 해당 코드값이 이미 사용중 입니다.");
         }
 
