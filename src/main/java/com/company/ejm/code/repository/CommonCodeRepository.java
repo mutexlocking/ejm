@@ -12,6 +12,10 @@ public interface CommonCodeRepository extends JpaRepository<CommonCode, Long> , 
 
     boolean existsByValue(Integer value);
 
+    boolean existsByNameAndIdIsNot(String name, Long id);
+
+    boolean existsByValueAndIdIsNot(Integer value, Long id);
+
     Optional<CommonCode> findByIdAndStatus(Long id, Status status);;
 
     Optional<CommonCode> findByNameAndStatus(String name, Status status);

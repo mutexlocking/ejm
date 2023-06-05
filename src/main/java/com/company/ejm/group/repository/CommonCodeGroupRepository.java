@@ -14,6 +14,10 @@ public interface CommonCodeGroupRepository extends JpaRepository<CommonCodeGroup
 
     boolean existsByValue(Integer value);
 
+    boolean existsByNameAndIdIsNot(String name, Long id);
+
+    boolean existsByValueAndIdIsNot(Integer value, Long id);
+
     boolean existsByValueAndStatus(Integer value, Status status);
 
     Optional<CommonCodeGroup> findByIdAndStatus(Long id, Status status);
