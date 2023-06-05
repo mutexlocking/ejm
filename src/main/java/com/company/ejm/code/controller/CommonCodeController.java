@@ -17,6 +17,7 @@ import static com.company.ejm.common.response.ApiResponseStatus.OK;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CommonCodeController {
 
     private final CommonCodeService commonCodeService;
