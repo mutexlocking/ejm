@@ -28,3 +28,11 @@ url : https://docs.google.com/spreadsheets/d/1Me-0xV_-Rbiyfthdoq5-vKH6ynD07yxNo1
 
 url : https://docs.google.com/spreadsheets/d/1XFlWXCEkupE3GGOKOFwrcVf_ETusVnqciZoGHQDBtiw/edit?usp=sharing
 (하단 탭을 통해 API를 선택할 수 있음)
+
+<Project init 관련>
+
+1. DB환경은 AWS RDS의 MySQL 버전 8.028을 사용함. 
+2. gradle 버전은 , gradle-7.6.1을 사용함.
+3. JDK는 correto-11을 사용함 (그런데 테스트 결과, 해당 설정이 github에 함께 업로드 되지 않아, 다시 clone 받았을 때 JDK 버전이 다를 수 있음. 따라서 로컬 설정 스크린샷 첨부)
+
+- 해당 url에 환경 설정에 대한 스크린샷을 첨부함. (url : https://drive.google.com/drive/folders/13480Reebj6SHdSSH35KOlkL2yRrI96SL?usp=sharing)
