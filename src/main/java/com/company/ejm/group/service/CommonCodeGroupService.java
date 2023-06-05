@@ -1,6 +1,7 @@
 package com.company.ejm.group.service;
 
 import com.company.ejm.code.dto.response.paging.CommonCodeSummaryDto;
+import com.company.ejm.code.repository.CommonCodeRepository;
 import com.company.ejm.common.enums.Status;
 import com.company.ejm.common.response.ApiException;
 import com.company.ejm.common.response.ApiResponseStatus;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class CommonCodeGroupService {
 
+    private final CommonCodeRepository commonCodeRepository;
     private final CommonCodeGroupRepository commonCodeGroupRepository;
 
     /**
@@ -42,6 +44,12 @@ public class CommonCodeGroupService {
         if (commonCodeGroupRepository.existsByValue(value)) {
 
             throw new ApiException(ApiResponseStatus.ALREADY_EXIST_GROUP, "공통코드그룹 생성 시점 : 해당 코드그룹값이 이미 사용중 입니다.");
+        }
+
+        /** 또한, 공통코드 이름이 - 공통코드그룹 이름과 겹치지 않는지 검사 (일반적으로 겹치는 것을 지양한다고 함) */
+        if (commonCodeRepository.existsByName(name)) {
+
+            throw new ApiException(ApiResponseStatus.SAME_GROUP_AND_CODE_NAME, "공통코드그룹 생성 시점 : 해당 코드명이, 다른 공통코드 이름과 겹칩니다.");
         }
 
 
@@ -161,6 +169,14 @@ public class CommonCodeGroupService {
 
             throw new ApiException(ApiResponseStatus.ALREADY_EXIST_GROUP, "공통코드그룹 수정 시점 : 해당 코드그룹값이 이미 사용중 입니다.");
        }
+
+        /** 또한, 공통코드 이름이 - 공통코드그룹 이름과 겹치지 않는지 검사 (일반적으로 겹치는 것을 지양한다고 함) */
+        if (commonCodeRepository.existsByName(name)) {
+
+            throw new ApiException(ApiResponseStatus.SAME_GROUP_AND_CODE_NAME, "공통코드그룹 수정 시점 : 해당 코드명이, 다른 공통코드 이름과 겹칩니다.");
+        }
+
+
 
         //3. 값 변경
         commonCodeGroup.changeName(name);
